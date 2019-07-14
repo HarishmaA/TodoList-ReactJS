@@ -1,44 +1,43 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import uuid from 'uuid';
 import './ToDoList.css';
 import ToDo from './ToDo.js';
-class ToDoList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { item:'', checked:false,todos:[] };
+const ToDoList=()=>{
+    const [item,setItem] = useState('');
+    const [checked,setChecked] = useState(false);
+    const [todos,setTodos] = useState([]);
+    const handleChange=(e)=>{
+        setItem(e.target.value);
     }
-    handleChange=(e)=>{
-    this.setState({item: e.target.value});
+    const addToDo=()=>{
+        const todo={id:uuid(),text:item};
+        const finalTodos = [...todos,todo];
+        setItem('');
+        setTodos(finalTodos);
     }
-    addToDo=()=>{
-    const todo={id:uuid(),text:this.state.item};
-    const todos = [...this.state.todos,todo];
-    this.setState({item:'',todos:todos})
-    }
-    strikeThrough=(id)=>{
-     this.state.todos.map(todo=>{
-          if(todo.id===id){
-              this.setState({checked:!this.state.checked})
-          }
+    
+    const strikeThrough=(id)=>{
+        todos.map(todo=>{
+        if(todo.id===id){
+            setChecked(!checked);
+        }
         })
-
     }
-    deleteToDo=(id)=>{
-        const todos = this.state.todos.filter(todo=>todo.id!==id);
-        this.setState({todos:todos});
-    }
-    render() {
-        const {todos,checked}=this.state;
-        return (
+    const deleteToDo=(id)=>{
+        const filteredTodos = todos.filter(todo=>todo.id!==id);
+        setTodos(filteredTodos);
+    }   
+    return(
         <div className="list">
-        <input id="input" type = "text" onChange = {this.handleChange} value={this.state.item}></input>
-        <button onClick = {this.addToDo}>Add ToDo</button>
+        <input id="input" type = "text" onChange = {handleChange} value={item}></input>
+        <button onClick = {addToDo}>Add ToDo</button>
           <ul>
-            <ToDo todos={todos} checked={checked} strikeThrough={this.strikeThrough} onDelete={this.deleteToDo}/>
+            <ToDo todos={todos} checked={checked} strikeThrough={strikeThrough} onDelete={deleteToDo}/>
           </ul> 
          </div> 
-        );
-    }
+
+    );
 }
+
 
 export default ToDoList;
