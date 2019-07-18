@@ -1,12 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import NavBar from './NavBar.js';
 import ToDoList from './ToDoList.js';
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {  };
-  }
-  render() {
+
+const App = () => {
     return (
       <>
       <NavBar/>
@@ -14,6 +10,4 @@ class App extends Component {
       </>
     );
   }
-}
-
 export default App;

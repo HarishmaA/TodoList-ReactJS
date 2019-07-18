@@ -1,43 +1,43 @@
-import React, {useState} from 'react';
-import uuid from 'uuid';
+import React, {Component} from 'react';
 import './ToDoList.css';
 import ToDo from './ToDo.js';
-const ToDoList=()=>{
-    const [item,setItem] = useState('');
-    const [checked,setChecked] = useState(false);
-    const [todos,setTodos] = useState([]);
-    const handleChange=(e)=>{
-        setItem(e.target.value);
+import {addToDo,deleteToDo, completedToDo} from './actions';
+import {connect} from 'react-redux';
+
+class ToDoList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {item :'' };
+  }
+     handleChange=(e)=>{
+        this.setState({item : e.target.value});
+     }
+     handleClick=()=>{
+     this.props.addToDo(this.state.item);
+     this.setState({item : ''});
     }
-    const addToDo=()=>{
-        const todo={id:uuid(),text:item};
-        const finalTodos = [...todos,todo];
-        setItem('');
-        setTodos(finalTodos);
-    }
-    
-    const strikeThrough=(id)=>{
-        todos.map(todo=>{
-        if(todo.id===id){
-            setChecked(!checked);
-        }
-        })
-    }
-    const deleteToDo=(id)=>{
-        const filteredTodos = todos.filter(todo=>todo.id!==id);
-        setTodos(filteredTodos);
-    }   
-    return(
+    render(){
+      const {todos,completedToDo,deleteToDo} = this.props;
+      return(
         <div className="list">
-        <input id="input" type = "text" onChange = {handleChange} value={item}></input>
-        <button onClick = {addToDo}>Add ToDo</button>
+        <input id="input" type = "text" onChange = {this.handleChange} value={this.state.item}></input>
+        <button onClick ={this.handleClick}>Add ToDo</button>
           <ul>
-            <ToDo todos={todos} checked={checked} strikeThrough={strikeThrough} onDelete={deleteToDo}/>
+            <ToDo todos={todos}  onComplete={completedToDo} onDelete={deleteToDo}/>
           </ul> 
          </div> 
-
-    );
+      )
+}
 }
 
-
-export default ToDoList;
+const  mapStateToProps = state => {
+  return {
+    todos : state
+  }
+}
+const mapDispatchToProps = {
+   addToDo,
+   deleteToDo,
+   completedToDo
+  }
+export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);
