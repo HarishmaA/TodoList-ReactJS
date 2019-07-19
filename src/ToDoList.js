@@ -1,43 +1,28 @@
-import React, {Component} from 'react';
+import React, {useState,useReducer} from 'react';
 import './ToDoList.css';
 import ToDo from './ToDo.js';
-import {addToDo,deleteToDo, completedToDo} from './actions';
-import {connect} from 'react-redux';
+import {addToDo} from './actions';
+import reducer from './reducer';
 
-class ToDoList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {item :'' };
-  }
-     handleChange=(e)=>{
-        this.setState({item : e.target.value});
+const ToDoList = props => {
+   const [item,setItem] = useState('');
+   const [todos, dispatch] = useReducer(reducer, []);
+ 
+    const handleChange=(e)=>{
+        setItem(e.target.value);
      }
-     handleClick=()=>{
-     this.props.addToDo(this.state.item);
-     this.setState({item : ''});
+     const handleClick=()=>{
+     dispatch(addToDo(item));
+     setItem('');
     }
-    render(){
-      const {todos,completedToDo,deleteToDo} = this.props;
-      return(
+    return(
         <div className="list">
-        <input id="input" type = "text" onChange = {this.handleChange} value={this.state.item}></input>
-        <button onClick ={this.handleClick}>Add ToDo</button>
+        <input id="input" type = "text" onChange = {handleChange} value={item}></input>
+        <button onClick ={handleClick}>Add ToDo</button>
           <ul>
-            <ToDo todos={todos}  onComplete={completedToDo} onDelete={deleteToDo}/>
+            <ToDo todos={todos} dispatch = {dispatch}/>
           </ul> 
          </div> 
       )
 }
-}
-
-const  mapStateToProps = state => {
-  return {
-    todos : state
-  }
-}
-const mapDispatchToProps = {
-   addToDo,
-   deleteToDo,
-   completedToDo
-  }
-export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);
+export default ToDoList;
