@@ -1,12 +1,13 @@
-import React, {useState,useReducer} from 'react';
+import React, {useState} from 'react';
+import {useSelector,useDispatch} from 'react-redux';
 import './ToDoList.css';
 import ToDo from './ToDo.js';
 import {addToDo} from './actions';
-import reducer from './reducer';
 
-const ToDoList = props => {
+const ToDoList = () => {
    const [item,setItem] = useState('');
-   const [todos, dispatch] = useReducer(reducer, []);
+   const todos = useSelector(state=>state);
+   const dispatch =  useDispatch();
  
     const handleChange=(e)=>{
         setItem(e.target.value);
