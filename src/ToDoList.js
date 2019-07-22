@@ -7,7 +7,7 @@ import { ThemeContext } from './ThemeContext';
 
 const ToDoList = () => {
    const [item,setItem] = useState('');
-   const todos = useSelector(state=>state);
+   const todos = useSelector(state=>state.todos);
    const dispatch =  useDispatch();
    const {isLightTheme, light, dark} = useContext(ThemeContext);
    const theme = isLightTheme? light : dark;

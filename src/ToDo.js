@@ -17,5 +17,6 @@ const ToDo = props => {
    return (todos.map(todo=>
        <li style={{...style,textDecoration : todo.checked? 'line-through' :'none'}} key={todo.id} onClick ={()=> dispatch(completedToDo(todo.id))} onDoubleClick={()=>dispatch(deleteToDo(todo.id))}>{todo.text}</li>)
    )
+      return null;
 }
 export default ToDo;
