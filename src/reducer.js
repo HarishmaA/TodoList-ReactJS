@@ -5,7 +5,7 @@ const reducer = (state=[],action)=>{
 switch(action.type){
     
     case constants.ADD_TODO:
-    const todo = {id:uuid(),text:action.item,checked:false};
+    const todo = {id:0,text:action.item,checked:false};
     return [...state, todo];
     
     case constants.COMPLETED_TODO:
