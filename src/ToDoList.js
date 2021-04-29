@@ -23,7 +23,7 @@ class ToDoList extends Component {
         <input id="input" type = "text" onChange = {this.handleChange} value={this.state.item}></input>
         <button onClick ={this.handleClick}>Add ToDo</button>
           <ul>
-            <ToDo todos={todos}  onComplete={completedToDo} onDelete={deleteToDo}/>
+            <ToDo todos={todos} onComplete={completedToDo} onDelete={deleteToDo}/>
           </ul> 
          </div> 
       )
